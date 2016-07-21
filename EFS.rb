@@ -21,7 +21,7 @@ template do
   parameter 'AsgMaxSize',
             :Type => 'Number',
             :Description => 'Maximum size and initial desired capacity of Auto Scaling Group',
-            :Default => '2'
+            :Default => '1'
 
   parameter 'SSHLocation',
             :Description => 'The IP address range that can be used to connect to the EC2 instances by using SSH',
