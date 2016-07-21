@@ -139,7 +139,7 @@ template do
   }
 
   resource 'Subnet', :Type => 'AWS::EC2::Subnet', :Properties => {
-      :VpcId => 'vpc-a33ad9ca',
+      :VpcId => 'vpc-a00bb4c5',
       :CidrBlock => '10.0.0.0/24',
       :Tags => [
           {
@@ -150,7 +150,7 @@ template do
   }
 
   resource 'InstanceSecurityGroup', :Type => 'AWS::EC2::SecurityGroup', :Properties => {
-      :VpcId => 'vpc-a33ad9ca',
+      :VpcId => 'vpc-a00bb4c5',
       :GroupDescription => 'Enable SSH access via port 22',
       :SecurityGroupIngress => [
           {
@@ -164,7 +164,7 @@ template do
   }
 
   resource 'MountTargetSecurityGroup', :Type => 'AWS::EC2::SecurityGroup', :Properties => {
-      :VpcId => 'vpc-a33ad9ca',
+      :VpcId => 'vpc-a00bb4c5',
       :GroupDescription => 'Security group for mount target',
       :SecurityGroupIngress => [
           { :IpProtocol => 'tcp', :FromPort => '2049', :ToPort => '2049', :CidrIp => '0.0.0.0/0' },
