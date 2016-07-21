@@ -100,6 +100,7 @@ template do
           :'ap-northeast-1' => { :PV64 => 'ami-27f90e27', :HVM64 => 'ami-cbf90ecb', :HVMG2 => 'ami-6318e863' },
           :'ap-southeast-1' => { :PV64 => 'ami-acd9e8fe', :HVM64 => 'ami-68d8e93a', :HVMG2 => 'ami-3807376a' },
           :'ap-southeast-2' => { :PV64 => 'ami-ff9cecc5', :HVM64 => 'ami-fd9cecc7', :HVMG2 => 'ami-89790ab3' },
+		  :'ap-south-1' => { :HVM64 => 'ami-ffbdd790' },
           :'sa-east-1' => { :PV64 => 'ami-bb2890a6', :HVM64 => 'ami-b52890a8', :HVMG2 => 'NOT_SUPPORTED' },
           :'cn-north-1' => { :PV64 => 'ami-fa39abc3', :HVM64 => 'ami-f239abcb', :HVMG2 => 'NOT_SUPPORTED' }
 
@@ -189,7 +190,7 @@ template do
       :AssociatePublicIpAddress => true,
       :ImageId => find_in_map('AWSRegionArch2AMI', aws_region, find_in_map('AWSInstanceType2Arch', ref('InstanceType'), 'Arch')),
       :InstanceType => ref('InstanceType'),
-      :KeyName => 'shopatrondevops',
+      :KeyName => 'chef',
       :SecurityGroups => [ ref('InstanceSecurityGroup') ],
       :IamInstanceProfile => ref('CloudWatchPutMetricsInstanceProfile'),
       :UserData => base64(
