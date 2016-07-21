@@ -14,7 +14,7 @@ template do
   resource 'MyEC2Instance', :Type => 'AWS::EC2::Instance', :Properties => {
       :InstanceType => 't2.micro',
       :ImageId => 'ami-00f07917',
-	  :VpcId => 'vpc-b327b6d4'
+	  :VpcId => 'vpc-b327b6d4',
       :KeyName => 'chef-dk',
 	  :BlockDeviceMappings => [
           {
