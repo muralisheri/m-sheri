@@ -190,7 +190,7 @@ template do
       :AssociatePublicIpAddress => true,
       :ImageId => find_in_map('AWSRegionArch2AMI', aws_region, find_in_map('AWSInstanceType2Arch', ref('InstanceType'), 'Arch')),
       :InstanceType => 't2.micro',
-      :KeyName => 'chef',
+      :KeyName => 'chef-dk',
       :SecurityGroups => [ ref('InstanceSecurityGroup') ],
       :IamInstanceProfile => ref('CloudWatchPutMetricsInstanceProfile'),
       :UserData => base64(
