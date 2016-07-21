@@ -92,7 +92,7 @@ template do
           :'cc2.8xlarge' => { :Arch => 'HVM64' }
 
   mapping 'AWSRegionArch2AMI',
-          :'us-east-1' => { :PV64 => 'ami-1ccae774', :HVM64 => 'ami-1ecae776', :HVMG2 => 'ami-8c6b40e4' },
+          :'us-east-1' => { :PV64 => 'ami-1ccae774', :HVM64 => 'ami-00f07917', :HVMG2 => 'ami-8c6b40e4' },
           :'us-west-2' => { :PV64 => 'ami-ff527ecf', :HVM64 => 'ami-e7527ed7', :HVMG2 => 'ami-abbe919b' },
           :'us-west-1' => { :PV64 => 'ami-d514f291', :HVM64 => 'ami-d114f295', :HVMG2 => 'ami-f31ffeb7' },
           :'eu-west-1' => { :PV64 => 'ami-bf0897c8', :HVM64 => 'ami-a10897d6', :HVMG2 => 'ami-d5bc24a2' },
