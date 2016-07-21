@@ -25,11 +25,6 @@ template do
               :NoDevice => {},
           }
       ]
-  }
-  resource 'myVPC', :Type => 'AWS::EC2::VPC', :Properties => {
-	  :CidrBlock => '10.0.0.0/24',
-      :EnableDnsSupport => 'true',
-      :EnableDnsHostnames => 'true',
-      :InstanceTenancy => 'default',
+	  :VpcId => 'vpc-b327b6d4',
   }
 end.exec!
