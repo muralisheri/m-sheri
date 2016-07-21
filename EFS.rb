@@ -11,17 +11,13 @@ template do
 
   value :Description => 'This template creates an Amazon EFS file system and mount target and associates it with Amazon EC2 instances in an Auto Scaling group. **WARNING** This template creates Amazon EC2 instances and related resources. You will be billed for the AWS resources used if you create a stack from this template.'
 
-  parameter 'InstanceType',
-            :Description => 'WebServer EC2 instance type',
+ parameter 'InstanceType',
+            :Description => 'NFS server EC2 instance type.',
             :Type => 'String',
-            :Default => 't2.micro',
-            :AllowedValues => %w(t1.micro t2.micro t2.small t2.medium m1.small m1.medium m1.large m1.xlarge m2.xlarge m2.2xlarge m2.4xlarge m3.medium m3.large m3.xlarge m3.2xlarge c1.medium c1.xlarge c3.large c3.xlarge c3.2xlarge c3.4xlarge c3.8xlarge c4.large c4.xlarge c4.2xlarge c4.4xlarge c4.8xlarge g2.2xlarge r3.large r3.xlarge r3.2xlarge r3.4xlarge r3.8xlarge i2.xlarge i2.2xlarge i2.4xlarge i2.8xlarge d2.xlarge d2.2xlarge d2.4xlarge d2.8xlarge hi1.4xlarge hs1.8xlarge cr1.8xlarge cc2.8xlarge cg1.4xlarge),
-            :ConstraintDescription => 'Must be a valid EC2 instance type.'
-
-  parameter 'KeyName',
-            :Type => 'AWS::EC2::KeyPair::KeyName',
-            :Description => 'Name of an existing EC2 key pair to enable SSH access to the ECS instances'
-
+            :Default => 'm1.medium',
+            :AllowedValues => [ 'm1.medium', 'm1.large', 'm1.xlarge', 'm2.xlarge', 'm2.2xlarge', 'm2.4xlarge', 'c1.medium', 'c1.xlarge' ],
+            :ConstraintDescription => 'Must be a valid EC2 instance type.'			
+			
   parameter 'AsgMaxSize',
             :Type => 'Number',
             :Description => 'Maximum size and initial desired capacity of Auto Scaling Group',
@@ -141,48 +137,8 @@ template do
       :Roles => [ ref('CloudWatchPutMetricsRole') ],
   }
 
-  resource 'VPC', :Type => 'AWS::EC2::VPC', :Properties => {
-      :EnableDnsSupport => 'true',
-      :EnableDnsHostnames => 'true',
-      :CidrBlock => '10.0.0.0/16',
-      :Tags => [
-          {
-              :Key => 'Application',
-              :Value => aws_stack_id,
-          },
-      ],
-  }
-
-  resource 'InternetGateway', :Type => 'AWS::EC2::InternetGateway', :Properties => {
-      :Tags => [
-          {
-              :Key => 'Application',
-              :Value => aws_stack_name,
-          },
-          { :Key => 'Network', :Value => 'Public' },
-      ],
-  }
-
-  resource 'GatewayToInternet', :Type => 'AWS::EC2::VPCGatewayAttachment', :Properties => {
-      :VpcId => ref('VPC'),
-      :InternetGatewayId => ref('InternetGateway'),
-  }
-
-  resource 'RouteTable', :Type => 'AWS::EC2::RouteTable', :Properties => { :VpcId => ref('VPC') }
-
-  resource 'SubnetRouteTableAssoc', :Type => 'AWS::EC2::SubnetRouteTableAssociation', :Properties => {
-      :RouteTableId => ref('RouteTable'),
-      :SubnetId => ref('Subnet'),
-  }
-
-  resource 'InternetGatewayRoute', :Type => 'AWS::EC2::Route', :Properties => {
-      :DestinationCidrBlock => '0.0.0.0/0',
-      :RouteTableId => ref('RouteTable'),
-      :GatewayId => ref('InternetGateway'),
-  }
-
   resource 'Subnet', :Type => 'AWS::EC2::Subnet', :Properties => {
-      :VpcId => ref('VPC'),
+      :VpcId => 'vpc-c22b54a8',
       :CidrBlock => '10.0.0.0/24',
       :Tags => [
           {
@@ -193,7 +149,7 @@ template do
   }
 
   resource 'InstanceSecurityGroup', :Type => 'AWS::EC2::SecurityGroup', :Properties => {
-      :VpcId => ref('VPC'),
+      :VpcId => 'vpc-c22b54a8',
       :GroupDescription => 'Enable SSH access via port 22',
       :SecurityGroupIngress => [
           {
@@ -207,7 +163,7 @@ template do
   }
 
   resource 'MountTargetSecurityGroup', :Type => 'AWS::EC2::SecurityGroup', :Properties => {
-      :VpcId => ref('VPC'),
+      :VpcId => 'vpc-c22b54a8',
       :GroupDescription => 'Security group for mount target',
       :SecurityGroupIngress => [
           { :IpProtocol => 'tcp', :FromPort => '2049', :ToPort => '2049', :CidrIp => '0.0.0.0/0' },
@@ -233,7 +189,7 @@ template do
       :AssociatePublicIpAddress => true,
       :ImageId => find_in_map('AWSRegionArch2AMI', aws_region, find_in_map('AWSInstanceType2Arch', ref('InstanceType'), 'Arch')),
       :InstanceType => ref('InstanceType'),
-      :KeyName => ref('KeyName'),
+      :KeyName => 'shopatrondevops',
       :SecurityGroups => [ ref('InstanceSecurityGroup') ],
       :IamInstanceProfile => ref('CloudWatchPutMetricsInstanceProfile'),
       :UserData => base64(
@@ -260,7 +216,7 @@ template do
       ),
   }
 
-  resource 'AutoScalingGroup', :Type => 'AWS::AutoScaling::AutoScalingGroup', :DependsOn => [ 'MountTarget', 'GatewayToInternet' ], :CreationPolicy => { :ResourceSignal => { :Timeout => 'PT15M', :Count => ref('AsgMaxSize') } }, :Properties => {
+  resource 'AutoScalingGroup', :Type => 'AWS::AutoScaling::AutoScalingGroup', :DependsOn => [ 'MountTarget' ], :CreationPolicy => { :ResourceSignal => { :Timeout => 'PT15M', :Count => ref('AsgMaxSize') } }, :Properties => {
       :VPCZoneIdentifier => [ ref('Subnet') ],
       :LaunchConfigurationName => ref('LaunchConfiguration'),
       :MinSize => '1',
