@@ -25,6 +25,6 @@ template do
               :NoDevice => {},
           }
       ]
-	  :VpcId => 'vpc-b327b6d4',
+	  :VpcId => 'vpc-b327b6d4'
   }
 end.exec!
