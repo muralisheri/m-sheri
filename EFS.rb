@@ -140,7 +140,7 @@ template do
 
   resource 'Subnet', :Type => 'AWS::EC2::Subnet', :Properties => {
       :VpcId => 'vpc-a00bb4c5',
-      :CidrBlock => '172.31.48.0/20',
+      :CidrBlock => '172.31.1.0/20',
       :Tags => [
           {
               :Key => 'Application',
