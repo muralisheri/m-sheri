@@ -143,8 +143,12 @@ puts 'CloudWatchPutMetricsRolePolicy resource done...'
   output 'MountTargetID',
          :Description => 'Mount target ID',
          :Value => ref('MountTarget')
-
+  puts 'MountTargetID output done...'
+  
   output 'FileSystemID',
          :Description => 'File system ID',
          :Value => ref('FileSystem')
+		 
+		   puts 'FilesystemID Output done...'
+  
 end.exec!
