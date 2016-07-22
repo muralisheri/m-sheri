@@ -6,7 +6,7 @@ require 'cloudformation-ruby-dsl/spotprice'
 require 'cloudformation-ruby-dsl/table'
 
 user_data_scripts = [
-   './userdata/10-chefAliases.sh',
+   '/home/ec2-user/code/m-sheri/m-sheri/10-chefAliases.sh',
 ]
 
 template do
