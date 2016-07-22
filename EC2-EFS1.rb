@@ -16,6 +16,8 @@ template do
             :MinLength => '1',
             :Default => 'myEFSvolume'
 			
+ puts 'VolumeName parameter set...'			
+			
   parameter 'MountPoint',
             :Description => 'The Linux mount point for the EFS volume',
             :Type => 'String',
@@ -43,6 +45,8 @@ template do
           }
       ]
 	}
+	puts 'MyEC2Instance resource done...'
+	
   resource 'FileSystem', :Type => 'AWS::EFS::FileSystem', :Properties => {
       :FileSystemTags => [
           {
