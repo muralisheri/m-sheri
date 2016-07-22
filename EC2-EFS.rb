@@ -39,4 +39,9 @@ template do
           },
       ],
   }
+  resource 'MountTarget', :Type => 'AWS::EFS::MountTarget', :Properties => {
+      :FileSystemId => 'fs-2fa66066',
+      :SubnetId => 'subnet-d304d8a4',
+      :SecurityGroups => 'default' ],
+  }
 end.exec!
