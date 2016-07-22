@@ -121,4 +121,20 @@ template do
           )
       ),
   }
+  
+  resource 'AutoScalingGroup', :Type => 'AWS::AutoScaling::AutoScalingGroup', :DependsOn => [ 'MountTarget' ], :CreationPolicy => { :ResourceSignal => { :Timeout => 'PT15M', :Count => '1') } }, :Properties => {
+      :VPCZoneIdentifier => [ ref('MyEC2Instance' ],
+      :LaunchConfigurationName => ref('LaunchConfiguration'),
+      :MinSize => '1',
+      :MaxSize => '1',
+      :DesiredCapacity => '1',
+  }
+
+  output 'MountTargetID',
+         :Description => 'Mount target ID',
+         :Value => ref('MountTarget')
+
+  output 'FileSystemID',
+         :Description => 'File system ID',
+         :Value => ref('FileSystem')
 end.exec!
