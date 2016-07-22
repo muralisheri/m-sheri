@@ -15,6 +15,12 @@ template do
             :Type => 'String',
             :MinLength => '1',
             :Default => 'myEFSvolume'
+			
+  parameter 'MountPoint',
+            :Description => 'The Linux mount point for the EFS volume',
+            :Type => 'String',
+            :MinLength => '1',
+            :Default => 'myEFSvolume'
  
   resource 'MyEC2Instance', :Type => 'AWS::EC2::Instance', :Properties => {
       :InstanceType => 't2.micro',
