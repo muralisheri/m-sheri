@@ -18,11 +18,11 @@ template do
             :Default => 'myvolume'
 
   resource 'MyEC2Instance', :Type => 'AWS::EC2::Instance', :Properties => {
-      :InstanceType => 't2.micro',
-      :ImageId => 'ami-00f07917',
+      :InstanceType => 'm3.xlarge',
+      :ImageId => 'ami-028f1015',
       :KeyName => 'chef-dk',
-	  :VpcId => 'vpc-ca10dfad',
-      :CidrBlock => '10.0.1.0/24',
+	  :VpcId => 'vpc-b327b6d4',
+      :CidrBlock => '10.0.0.0/24',
       :BlockDeviceMappings => [
           {
               :DeviceName => '/dev/sdm',
@@ -36,8 +36,8 @@ template do
   }
 
   resource 'Subnet', :Type => 'AWS::EC2::Subnet', :Properties => {
-      :VpcId => 'vpc-ca10dfad',
-      :CidrBlock => '10.0.1.0/24',
+      :VpcId => 'vpc-b327b6d4',
+      :CidrBlock => '10.0.0.0/24',
       :Tags => [
           {
               :Key => 'Application',
@@ -47,24 +47,16 @@ template do
   }
 
   resource 'InstanceSecurityGroup', :Type => 'AWS::EC2::SecurityGroup', :Properties => {
-      :VpcId => 'vpc-ca10dfad',
+      :VpcId => 'vpc-b327b6d4',
       :GroupDescription => 'Enable SSH access via port 122',
       :SecurityGroupIngress => [
           {
               :IpProtocol => 'tcp',
               :FromPort => '122',
               :ToPort => '122',
-              :CidrIp => ref('SSHLocation'),
+              :CidrIp => '10.0.0.0/24',
           },
           { :IpProtocol => 'tcp', :FromPort => '80', :ToPort => '80', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'tcp', :FromPort => '8443', :ToPort => '8443', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'tcp', :FromPort => '8080', :ToPort => '8080', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'udp', :FromPort => '1194', :ToPort => '1194', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'udp', :FromPort => '161', :ToPort => '161', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'tcp', :FromPort => '443', :ToPort => '443', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'tcp', :FromPort => '22', :ToPort => '22', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'tcp', :FromPort => '9418', :ToPort => '9418', :CidrIp => '0.0.0.0/0' },
-		  { :IpProtocol => 'tcp', :FromPort => '25', :ToPort => '25', :CidrIp => '0.0.0.0/0' },
-      ],
+		],
   }
 end.exec!
