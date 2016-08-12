@@ -21,9 +21,7 @@ template do
       :InstanceType => 'm3.xlarge',
       :ImageId => 'ami-028f1015',
       :KeyName => 'chef-dk',
-	  :VpcId => 'vpc-b327b6d4',
-      :CidrBlock => '10.0.0.0/24',
-      :BlockDeviceMappings => [
+	  :BlockDeviceMappings => [
           {
               :DeviceName => '/dev/sdm',
               :Ebs => { :VolumeType => 'gp2', :DeleteOnTermination => 'false', :VolumeSize => '20' },
