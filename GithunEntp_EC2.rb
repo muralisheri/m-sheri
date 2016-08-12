@@ -9,7 +9,7 @@ template do
 
   value :AWSTemplateFormatVersion => '2010-09-09'
 
-  value :Description => 'This template creates an Amazon EFS file system and mount target and associates it with Amazon EC2 instances in an Auto Scaling group. **WARNING** This template creates Amazon EC2 instances and related resources. You will be billed for the AWS resources used if you create a stack from this template.'
+  value :Description => 'GithubEntp.'
 
   parameter 'VolumeName',
             :Description => 'The name to be used for the EFS volume',
@@ -22,7 +22,7 @@ template do
       :ImageId => 'ami-028f1015',
       :KeyName => 'chef-dk',
 	  :VpcId => 'vpc-b327b6d4',
-      :CidrBlock => '10.0.0.0/24',
+      :CidrBlock => ref('Subnet'),
       :BlockDeviceMappings => [
           {
               :DeviceName => '/dev/sdm',
@@ -37,7 +37,7 @@ template do
 
   resource 'Subnet', :Type => 'AWS::EC2::Subnet', :Properties => {
       :VpcId => 'vpc-b327b6d4',
-      :CidrBlock => '10.0.0.0/24',
+      :CidrBlock => '10.0.1.0/24',
       :Tags => [
           {
               :Key => 'Application',
@@ -54,7 +54,7 @@ template do
               :IpProtocol => 'tcp',
               :FromPort => '122',
               :ToPort => '122',
-              :CidrIp => '10.0.0.0/24',
+              :CidrIp => ref('Subnet'),
           },
           { :IpProtocol => 'tcp', :FromPort => '80', :ToPort => '80', :CidrIp => '0.0.0.0/0' },
 		],
