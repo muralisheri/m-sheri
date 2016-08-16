@@ -1,5 +1,5 @@
 require "watir"
-ie = Watir::IE.new  #create an object to drive the browser
+ie = Watir::Browser.new  #create an object to drive the browser
 ie.goto "http://www.google.com/"
 ie.url == "http://www.google.com/"
 ie.link(:text, "Images").flash #flash the item text "Images"
