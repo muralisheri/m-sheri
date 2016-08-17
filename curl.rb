@@ -1,4 +1,6 @@
 #!/usr/bin/ruby
+require 'net/http'
+require 'uri'
 
 http_request 'posting data' do
   action :post
